@@ -109,7 +109,7 @@ function fetchResults(event) {
   renderSearches();
   //geo-location fetch
   var geoURL =
-    "http://api.openweathermap.org/geo/1.0/direct?q=" +
+    "https://api.openweathermap.org/geo/1.0/direct?q=" +
     citySearch +
     "&limit=1&appid=7a7cf95b9e7bc5abfa9774305fd77b7e";
   fetch(geoURL)
@@ -151,35 +151,35 @@ function fetchResults(event) {
           var oneHumid = data.daily[0].humidity;
           var oneIconCode = data.daily[0].weather[0].icon;
           var oneIcon =
-            "http://openweathermap.org/img/wn/" + oneIconCode + "@2x.png";
+            "https://openweathermap.org/img/wn/" + oneIconCode + "@2x.png";
           //day 2 forecast variables
           var twoTemp = data.daily[1].temp.day;
           var twoWind = data.daily[1].wind_speed;
           var twoHumid = data.daily[1].humidity;
           var twoIconCode = data.daily[1].weather[0].icon;
           var twoIcon =
-            "http://openweathermap.org/img/wn/" + twoIconCode + "@2x.png";
+            "https://openweathermap.org/img/wn/" + twoIconCode + "@2x.png";
           //day 3 forecast variables
           var threeTemp = data.daily[2].temp.day;
           var threeWind = data.daily[2].wind_speed;
           var threeHumid = data.daily[2].humidity;
           var threeIconCode = data.daily[2].weather[0].icon;
           var threeIcon =
-            "http://openweathermap.org/img/wn/" + threeIconCode + "@2x.png";
+            "https://openweathermap.org/img/wn/" + threeIconCode + "@2x.png";
           //day 4 forecast variables
           var fourTemp = data.daily[3].temp.day;
           var fourWind = data.daily[3].wind_speed;
           var fourHumid = data.daily[3].humidity;
           var fourIconCode = data.daily[3].weather[0].icon;
           var fourIcon =
-            "http://openweathermap.org/img/wn/" + fourIconCode + "@2x.png";
+            "https://openweathermap.org/img/wn/" + fourIconCode + "@2x.png";
           //day 5 forecast variables
           var fiveTemp = data.daily[4].temp.day;
           var fiveWind = data.daily[4].wind_speed;
           var fiveHumid = data.daily[4].humidity;
           var fiveIconCode = data.daily[4].weather[0].icon;
           var fiveIcon =
-            "http://openweathermap.org/img/wn/" + fiveIconCode + "@2x.png";
+            "https://openweathermap.org/img/wn/" + fiveIconCode + "@2x.png";
           // TEXT CONTENT
           //City information elements
           cityNameEl.textContent = citySearch;
@@ -251,7 +251,7 @@ searchedList.addEventListener("click", (event) => {
     console.log(searchBtnText);
     //geo-location fetch
     var geoURL =
-      "http://api.openweathermap.org/geo/1.0/direct?q=" +
+      "https://api.openweathermap.org/geo/1.0/direct?q=" +
       searchBtnText +
       "&limit=1&appid=7a7cf95b9e7bc5abfa9774305fd77b7e";
     fetch(geoURL)
@@ -293,35 +293,35 @@ searchedList.addEventListener("click", (event) => {
             var oneHumid = data.daily[0].humidity;
             var oneIconCode = data.daily[0].weather[0].icon;
             var oneIcon =
-              "http://openweathermap.org/img/wn/" + oneIconCode + "@2x.png";
+              "https://openweathermap.org/img/wn/" + oneIconCode + "@2x.png";
             //day 2 forecast variables
             var twoTemp = data.daily[1].temp.day;
             var twoWind = data.daily[1].wind_speed;
             var twoHumid = data.daily[1].humidity;
             var twoIconCode = data.daily[1].weather[0].icon;
             var twoIcon =
-              "http://openweathermap.org/img/wn/" + twoIconCode + "@2x.png";
+              "https://openweathermap.org/img/wn/" + twoIconCode + "@2x.png";
             //day 3 forecast variables
             var threeTemp = data.daily[2].temp.day;
             var threeWind = data.daily[2].wind_speed;
             var threeHumid = data.daily[2].humidity;
             var threeIconCode = data.daily[2].weather[0].icon;
             var threeIcon =
-              "http://openweathermap.org/img/wn/" + threeIconCode + "@2x.png";
+              "https://openweathermap.org/img/wn/" + threeIconCode + "@2x.png";
             //day 4 forecast variables
             var fourTemp = data.daily[3].temp.day;
             var fourWind = data.daily[3].wind_speed;
             var fourHumid = data.daily[3].humidity;
             var fourIconCode = data.daily[3].weather[0].icon;
             var fourIcon =
-              "http://openweathermap.org/img/wn/" + fourIconCode + "@2x.png";
+              "https://openweathermap.org/img/wn/" + fourIconCode + "@2x.png";
             //day 5 forecast variables
             var fiveTemp = data.daily[4].temp.day;
             var fiveWind = data.daily[4].wind_speed;
             var fiveHumid = data.daily[4].humidity;
             var fiveIconCode = data.daily[4].weather[0].icon;
             var fiveIcon =
-              "http://openweathermap.org/img/wn/" + fiveIconCode + "@2x.png";
+              "https://openweathermap.org/img/wn/" + fiveIconCode + "@2x.png";
             // TEXT CONTENT
             //City information elements
             cityNameEl.textContent = searchBtnText;
