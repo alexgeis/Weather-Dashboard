@@ -1,0 +1,89 @@
+body {
+  /* font-family: ; */
+}
+
+header {
+  background-image: linear-gradient(to right, blue, rgb(64, 0, 128));
+}
+
+h1,
+header p {
+  text-align: center;
+  font-weight: bold;
+  color: white;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+#searchAside,
+#cityDisplay,
+#forecast,
+.card {
+  border: 2px solid black;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+#searchBtn {
+  background-image: linear-gradient(to right, blue, rgb(64, 0, 128));
+  color: white;
+}
+
+ul {
+  list-style: none;
+}
+
+li {
+  margin: 5px 0;
+}
+
+li button:active {
+  background-color: blue;
+  color: white;
+}
+span {
+  border-radius: 10px;
+  padding: 5px;
+  padding-right: 10px;
+  padding-left: 10px;
+}
+
+.lowUV {
+  background-color: green;
+}
+.medUV {
+  background-color: yellow;
+}
+.hiUV {
+  background-color: red;
+}
+.veryHiUV {
+  background-color: purple;
+}
+
+.card {
+  /* background-color: rgb(64, 0, 128); */
+  background-image: linear-gradient(to bottom, blue, rgb(64, 0, 128));
+  color: white;
+  border-radius: 10px;
+}
+
+h4 {
+  font-size: 20px;
+}
+
+img {
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+}
+img[src=""] {
+  display: none;
+}
+
+@media screen and (max-width: 992px) {
+  #cardContainer {
+    max-width: 960px;
+    flex-direction: column;
+  }
+}
