@@ -331,9 +331,9 @@ searchedList.addEventListener("click", (event) => {
 						cityUVEl.textContent = currentUV;
 						if (currentUV < 3) {
 							cityUVEl.classList.add("lowUV");
-						} else if (current < 6) {
+						} else if (currentUV < 6) {
 							cityUVEl.classList.add("medUV");
-						} else if (current < 8) {
+						} else if (currentUV < 8) {
 							cityUVEl.classList.add("hiUV");
 						} else {
 							cityUVEl.classList.add("veryHiUV");
