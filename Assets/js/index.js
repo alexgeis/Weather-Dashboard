@@ -1,57 +1,8 @@
-//DECLARE VARIABLES
-//header elements
-const currentDayEl = document.querySelector("#currentDay");
-//search elements
-const inputEl = document.querySelector("#cityInput");
-const searchBtn = document.querySelector("#searchBtn");
-const searchedList = document.querySelector("#citySearched");
-const searchedListItem = document.querySelector(".search-list");
-//City information elements
-const cityNameEl = document.querySelector("#cityName");
-const cityTempEl = document.querySelector("#cityTemp");
-const cityWindEl = document.querySelector("#cityWind");
-const cityHumidEl = document.querySelector("#cityHumid");
-const cityUVEl = document.querySelector("#cityUV");
-//5-day forecast elements
-const forecastEl = document.querySelector("#forecast");
-//Day 1
-const oneDateEl = document.querySelector("#oneDate");
-const oneIconEl = document.querySelector("#oneIcon");
-const oneTempEl = document.querySelector("#oneTemp");
-const oneWindEl = document.querySelector("#oneWind");
-const oneHumidEl = document.querySelector("#oneHumid");
-//Day 2
-const twoDateEl = document.querySelector("#twoDate");
-const twoIconEl = document.querySelector("#twoIcon");
-const twoTempEl = document.querySelector("#twoTemp");
-const twoWindEl = document.querySelector("#twoWind");
-const twoHumidEl = document.querySelector("#twoHumid");
-//Day 3
-const threeDateEl = document.querySelector("#threeDate");
-const threeIconEl = document.querySelector("#threeIcon");
-const threeTempEl = document.querySelector("#threeTemp");
-const threeWindEl = document.querySelector("#threeWind");
-const threeHumidEl = document.querySelector("#threeHumid");
-//Day 4
-const fourDateEl = document.querySelector("#fourDate");
-const fourIconEl = document.querySelector("#fourIcon");
-const fourTempEl = document.querySelector("#fourTemp");
-const fourWindEl = document.querySelector("#fourWind");
-const fourHumidEl = document.querySelector("#fourHumid");
-//Day 5
-const fiveDateEl = document.querySelector("#fiveDate");
-const fiveIconEl = document.querySelector("#fiveIcon");
-const fiveTempEl = document.querySelector("#fiveTemp");
-const fiveWindEl = document.querySelector("#fiveWind");
-const fiveHumidEl = document.querySelector("#fiveHumid");
-// Other variables
-
-function pageRender() {
+window.onload = function () {
 	const now = moment().format("LL");
-	currentDayEl.textContent = now;
-	forecastEl.style.display = "none";
-}
-pageRender();
+	document.getElementById("currentDay").textContent = now;
+	document.getElementById("forecast").style.display = "none";
+};
 /*
 WHEN I search for a city
 THEN I am presented with current and future conditions for that city and that city is added to the search history
@@ -75,7 +26,10 @@ THEN I am presented with current and future conditions for that city and that ci
     -UV index - ranges for green, yellow, and red
     -weather icon - based on weather show certain icon
 */
+const inputEl = document.getElementById("cityInput");
+const searchedList = document.getElementById("citySearched");
 
+// const searchedListItem = document.querySelector(".search-list");
 function renderSearches() {
 	//locally store city searches
 	const citySearch = inputEl.value;
@@ -96,8 +50,10 @@ function renderSearches() {
 //event delegation - need all city search buttons to retrigger searches using the button text
 function redoSearch() {}
 
-function fetchResults(event) {
+async function fetchResults(event) {
 	event.preventDefault();
+	// show main city display
+	document.getElementById("main").style.display = "block";
 	//show 5-day forecast section
 	forecastEl.style.display = "block";
 	//variable for user input city
@@ -112,123 +68,111 @@ function fetchResults(event) {
 		"https://api.openweathermap.org/geo/1.0/direct?q=" +
 		citySearch +
 		"&limit=1&appid=7a7cf95b9e7bc5abfa9774305fd77b7e";
-	fetch(geoURL)
-		.then(function (responseGeo) {
-			console.log(responseGeo);
-			return responseGeo.json();
-		})
-		.then(function (dataGeo) {
-			console.log(dataGeo);
-			const latitude = dataGeo[0].lat.toFixed(2);
-			console.log(latitude);
-			const longitude = dataGeo[0].lon.toFixed(2);
-			console.log(longitude);
+	const responseGeo = await fetch(geoURL);
+	const dataGeo = await responseGeo.json();
 
-			//2nd fetch call using the geolocation info
-			const requestURL =
-				"https://api.openweathermap.org/data/2.5/onecall?lat=" +
-				latitude +
-				"&lon=" +
-				longitude +
-				"&units=imperial&exclude=minutely,hourly,alerts&appid=7a7cf95b9e7bc5abfa9774305fd77b7e";
-			fetch(requestURL)
-				.then(function (response) {
-					console.log(response);
-					return response.json();
-				})
-				.then(function (data) {
-					console.log(data);
-					//current variables
-					const currentTemp = data.current.temp;
-					const currentWind = data.current.wind_speed;
-					const currentHumid = data.current.humidity;
-					const currentUV = data.current.uvi;
-					console.log(currentUV);
-					const currentIcon = data.current.weather[0].icon;
-					//day 1 forecast variables
-					const oneTemp = data.daily[0].temp.day;
-					const oneWind = data.daily[0].wind_speed;
-					const oneHumid = data.daily[0].humidity;
-					const oneIconCode = data.daily[0].weather[0].icon;
-					const oneIcon =
-						"https://openweathermap.org/img/wn/" + oneIconCode + "@2x.png";
-					//day 2 forecast variables
-					const twoTemp = data.daily[1].temp.day;
-					const twoWind = data.daily[1].wind_speed;
-					const twoHumid = data.daily[1].humidity;
-					const twoIconCode = data.daily[1].weather[0].icon;
-					const twoIcon =
-						"https://openweathermap.org/img/wn/" + twoIconCode + "@2x.png";
-					//day 3 forecast variables
-					const threeTemp = data.daily[2].temp.day;
-					const threeWind = data.daily[2].wind_speed;
-					const threeHumid = data.daily[2].humidity;
-					const threeIconCode = data.daily[2].weather[0].icon;
-					const threeIcon =
-						"https://openweathermap.org/img/wn/" + threeIconCode + "@2x.png";
-					//day 4 forecast variables
-					const fourTemp = data.daily[3].temp.day;
-					const fourWind = data.daily[3].wind_speed;
-					const fourHumid = data.daily[3].humidity;
-					const fourIconCode = data.daily[3].weather[0].icon;
-					const fourIcon =
-						"https://openweathermap.org/img/wn/" + fourIconCode + "@2x.png";
-					//day 5 forecast variables
-					const fiveTemp = data.daily[4].temp.day;
-					const fiveWind = data.daily[4].wind_speed;
-					const fiveHumid = data.daily[4].humidity;
-					const fiveIconCode = data.daily[4].weather[0].icon;
-					const fiveIcon =
-						"https://openweathermap.org/img/wn/" + fiveIconCode + "@2x.png";
-					// TEXT CONTENT
-					//City information elements
-					cityNameEl.textContent = citySearch;
-					cityTempEl.textContent = "Temp: " + currentTemp + "\u00B0F";
-					cityWindEl.textContent = "Wind: " + currentWind + " MPH";
-					cityHumidEl.textContent = "Humidity: " + currentHumid + " %";
-					cityUVEl.textContent = currentUV;
-					if (currentUV < 3) {
-						cityUVEl.classList.add("lowUV");
-					} else if (currentUV < 6) {
-						cityUVEl.classList.add("medUV");
-					} else if (currentUV < 8) {
-						cityUVEl.classList.add("hiUV");
-					} else {
-						cityUVEl.classList.add("veryHiUV");
-					}
-					//5-day forecast elements
-					//Day 1
-					oneDateEl.textContent = moment().add(1, "days").format("l");
-					oneIconEl.src = oneIcon;
-					oneTempEl.textContent = "Temp: " + oneTemp + "\u00B0F";
-					oneWindEl.textContent = "Wind: " + oneWind + " MPH";
-					oneHumidEl.textContent = "Humidity: " + oneHumid + " %";
-					//Day 2
-					twoDateEl.textContent = moment().add(2, "days").format("l");
-					twoIconEl.src = twoIcon;
-					twoTempEl.textContent = "Temp: " + twoTemp + "\u00B0F";
-					twoWindEl.textContent = "Wind: " + twoWind + " MPH";
-					twoHumidEl.textContent = "Humidity: " + twoHumid + " %";
-					//Day 3
-					threeDateEl.textContent = moment().add(3, "days").format("l");
-					threeIconEl.src = threeIcon;
-					threeTempEl.textContent = "Temp: " + threeTemp + "\u00B0F";
-					threeWindEl.textContent = "Wind: " + threeWind + " MPH";
-					threeHumidEl.textContent = "Humidity: " + threeHumid + " %";
-					//Day 4
-					fourDateEl.textContent = moment().add(4, "days").format("l");
-					fourIconEl.src = fourIcon;
-					fourTempEl.textContent = "Temp: " + fourTemp + "\u00B0F";
-					fourWindEl.textContent = "Wind: " + fourWind + " MPH";
-					fourHumidEl.textContent = "Humidity: " + fourHumid + " %";
-					//Day 5
-					fiveDateEl.textContent = moment().add(5, "days").format("l");
-					fiveIconEl.src = fiveIcon;
-					fiveTempEl.textContent = "Temp: " + fiveTemp + "\u00B0F";
-					fiveWindEl.textContent = "Wind: " + fiveWind + " MPH";
-					fiveHumidEl.textContent = "Humidity: " + fiveHumid + " %";
-				});
-		});
+	const latitude = dataGeo[0].lat.toFixed(2);
+	const longitude = dataGeo[0].lon.toFixed(2);
+	const requestURL =
+		"https://api.openweathermap.org/data/2.5/onecall?lat=" +
+		latitude +
+		"&lon=" +
+		longitude +
+		"&units=imperial&exclude=minutely,hourly,alerts&appid=7a7cf95b9e7bc5abfa9774305fd77b7e";
+
+	//2nd fetch call using the geolocation info
+	const responseWeatherData = await fetch(requestURL);
+	const weatherData = await responseWeatherData.json();
+	// console.log(weatherData);
+	//current variables
+	const currentTemp = weatherData.current.temp;
+	const currentWind = weatherData.current.wind_speed;
+	const currentHumid = weatherData.current.humidity;
+	const currentUV = weatherData.current.uvi;
+	// console.log(currentUV);
+	const currentIcon = weatherData.current.weather[0].icon;
+	//day 1 forecast variables
+	const oneTemp = weatherData.daily[0].temp.day;
+	const oneWind = weatherData.daily[0].wind_speed;
+	const oneHumid = weatherData.daily[0].humidity;
+	const oneIconCode = weatherData.daily[0].weather[0].icon;
+	const oneIcon =
+		"https://openweathermap.org/img/wn/" + oneIconCode + "@2x.png";
+	//day 2 forecast variables
+	const twoTemp = weatherData.daily[1].temp.day;
+	const twoWind = weatherData.daily[1].wind_speed;
+	const twoHumid = weatherData.daily[1].humidity;
+	const twoIconCode = weatherData.daily[1].weather[0].icon;
+	const twoIcon =
+		"https://openweathermap.org/img/wn/" + twoIconCode + "@2x.png";
+	//day 3 forecast variables
+	const threeTemp = weatherData.daily[2].temp.day;
+	const threeWind = weatherData.daily[2].wind_speed;
+	const threeHumid = weatherData.daily[2].humidity;
+	const threeIconCode = weatherData.daily[2].weather[0].icon;
+	const threeIcon =
+		"https://openweathermap.org/img/wn/" + threeIconCode + "@2x.png";
+	//day 4 forecast variables
+	const fourTemp = weatherData.daily[3].temp.day;
+	const fourWind = weatherData.daily[3].wind_speed;
+	const fourHumid = weatherData.daily[3].humidity;
+	const fourIconCode = weatherData.daily[3].weather[0].icon;
+	const fourIcon =
+		"https://openweathermap.org/img/wn/" + fourIconCode + "@2x.png";
+	//day 5 forecast variables
+	const fiveTemp = weatherData.daily[4].temp.day;
+	const fiveWind = weatherData.daily[4].wind_speed;
+	const fiveHumid = weatherData.daily[4].humidity;
+	const fiveIconCode = weatherData.daily[4].weather[0].icon;
+	const fiveIcon =
+		"https://openweathermap.org/img/wn/" + fiveIconCode + "@2x.png";
+	// TEXT CONTENT
+	//City information elements
+	cityNameEl.textContent = citySearch;
+	cityTempEl.textContent = "Temp: " + currentTemp + "\u00B0F";
+	cityWindEl.textContent = "Wind: " + currentWind + " MPH";
+	cityHumidEl.textContent = "Humidity: " + currentHumid + " %";
+	cityUVEl.textContent = currentUV;
+	if (currentUV < 3) {
+		cityUVEl.classList.add("lowUV");
+	} else if (currentUV < 6) {
+		cityUVEl.classList.add("medUV");
+	} else if (currentUV < 8) {
+		cityUVEl.classList.add("hiUV");
+	} else {
+		cityUVEl.classList.add("veryHiUV");
+	}
+	//5-day forecast elements
+	//Day 1
+	oneDateEl.textContent = moment().add(1, "days").format("l");
+	oneIconEl.src = oneIcon;
+	oneTempEl.textContent = "Temp: " + oneTemp + "\u00B0F";
+	oneWindEl.textContent = "Wind: " + oneWind + " MPH";
+	oneHumidEl.textContent = "Humidity: " + oneHumid + " %";
+	//Day 2
+	twoDateEl.textContent = moment().add(2, "days").format("l");
+	twoIconEl.src = twoIcon;
+	twoTempEl.textContent = "Temp: " + twoTemp + "\u00B0F";
+	twoWindEl.textContent = "Wind: " + twoWind + " MPH";
+	twoHumidEl.textContent = "Humidity: " + twoHumid + " %";
+	//Day 3
+	threeDateEl.textContent = moment().add(3, "days").format("l");
+	threeIconEl.src = threeIcon;
+	threeTempEl.textContent = "Temp: " + threeTemp + "\u00B0F";
+	threeWindEl.textContent = "Wind: " + threeWind + " MPH";
+	threeHumidEl.textContent = "Humidity: " + threeHumid + " %";
+	//Day 4
+	fourDateEl.textContent = moment().add(4, "days").format("l");
+	fourIconEl.src = fourIcon;
+	fourTempEl.textContent = "Temp: " + fourTemp + "\u00B0F";
+	fourWindEl.textContent = "Wind: " + fourWind + " MPH";
+	fourHumidEl.textContent = "Humidity: " + fourHumid + " %";
+	//Day 5
+	fiveDateEl.textContent = moment().add(5, "days").format("l");
+	fiveIconEl.src = fiveIcon;
+	fiveTempEl.textContent = "Temp: " + fiveTemp + "\u00B0F";
+	fiveWindEl.textContent = "Wind: " + fiveWind + " MPH";
+	fiveHumidEl.textContent = "Humidity: " + fiveHumid + " %";
 }
 
 /*
@@ -241,14 +185,14 @@ WHEN I click on a city in the search history
 THEN I am again presented with current and future conditions for that city
 */
 searchedList.addEventListener("click", (event) => {
-	console.log("hello!");
+	// console.log("hello!");
 	if (event.target.className === "search-button") {
 		// function redoSearch(event) {
 		//   event.stopPropagation();
 		const element = event.target;
-		console.log(event.target);
+		// console.log(event.target);
 		const searchBtnText = element.innerText;
-		console.log(searchBtnText);
+		// console.log(searchBtnText);
 		//geo-location fetch
 		const geoURL =
 			"https://api.openweathermap.org/geo/1.0/direct?q=" +
@@ -256,15 +200,15 @@ searchedList.addEventListener("click", (event) => {
 			"&limit=1&appid=7a7cf95b9e7bc5abfa9774305fd77b7e";
 		fetch(geoURL)
 			.then(function (responseGeo) {
-				console.log(responseGeo);
+				// console.log(responseGeo);
 				return responseGeo.json();
 			})
 			.then(function (dataGeo) {
-				console.log(dataGeo);
+				// console.log(dataGeo);
 				const latitude = dataGeo[0].lat.toFixed(2);
-				console.log(latitude);
+				// console.log(latitude);
 				const longitude = dataGeo[0].lon.toFixed(2);
-				console.log(longitude);
+				// console.log(longitude);
 
 				//2nd fetch call using the geolocation info
 				const requestURL =
@@ -275,17 +219,17 @@ searchedList.addEventListener("click", (event) => {
 					"&units=imperial&exclude=minutely,hourly,alerts&appid=7a7cf95b9e7bc5abfa9774305fd77b7e";
 				fetch(requestURL)
 					.then(function (response) {
-						console.log(response);
+						// console.log(response);
 						return response.json();
 					})
 					.then(function (data) {
-						console.log(data);
+						// console.log(data);
 						//current variables
 						const currentTemp = data.current.temp;
 						const currentWind = data.current.wind_speed;
 						const currentHumid = data.current.humidity;
 						const currentUV = data.current.uvi;
-						console.log(currentUV);
+						// console.log(currentUV);
 						const currentIcon = data.current.weather[0].icon;
 						//day 1 forecast variables
 						const oneTemp = data.daily[0].temp.day;
@@ -375,5 +319,6 @@ searchedList.addEventListener("click", (event) => {
 	}
 });
 
+const searchBtn = document.getElementById("searchBtn");
 searchBtn.addEventListener("click", fetchResults);
 // searchedList.addEventListener("click", ".search-button", );
