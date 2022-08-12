@@ -82,15 +82,13 @@ const fiveWindEl = document.getElementById("fiveWind");
 const fiveHumidEl = document.getElementById("fiveHumid");
 
 /* 
-//show city/forecast sections
-//fetch results
+
 */
 function displayWeatherData() {
 	document.getElementById("main").style.display = "block";
 	document.getElementById("forecast").style.display = "block";
 }
-async function fetchWeatherData(event) {
-	event.preventDefault();
+async function fetchWeatherData() {
 	const inputEl = document.getElementById("cityInput");
 	const citySearch = inputEl.value;
 	if (!citySearch) {
@@ -149,9 +147,47 @@ function renderCurrentWeather(data) {
 		cityUVEl.classList.add("veryHiUV");
 	}
 }
-function render5DayForecase(data) {
+function render5DayForecast(data) {
 	const dailyArray = data.daily;
 	console.log(dailyArray);
+	for (let i = 0; i < 5; i++) {
+		const dailyData = dailyArray[i];
+		// pull variables from data
+		const temp = dailyData.temp.day;
+		const wind = dailyData.wind_speed;
+		const humidity = dailyData.humidity;
+		const iconCode = dailyData.weather[0].icon;
+		const iconPath = `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
+		// create cards
+		// // date
+		const dateEl = document.createElement("h4");
+		dateEl.setAttribute("id", `date${i + 1}`);
+		dateEl.textContent = moment().add(1, "days").format("l");
+		// // img
+		const imgEl = document.createElement("img");
+		imgEl.setAttribute("id", `icon${i + 1}`);
+		imgEl.setAttribute("src", iconPath);
+		imgEl.setAttribute("alt", `Day ${i + 1} forecast weather icon`);
+		// // temp
+		const tempEl = document.createElement("p");
+		tempEl.setAttribute("id", `temp${i + 1}`);
+		tempEl.textContent = `Temp: ${temp} \u00B0F`;
+		// // wind
+		const windEl = document.createElement("p");
+		windEl.setAttribute("id", `wind${i + 1}`);
+		windEl.textContent = `Wind: ${wind} MPH`;
+		// // humidity
+		const humidityEl = document.createElement("p");
+		humidityEl.setAttribute("id", `humidity${i + 1}`);
+		humidityEl.textContent = `Humidity: ${humidity} %`;
+		const cardDiv = document.createElement("div");
+		// // full card append
+		cardDiv.classList.add("card");
+		cardDiv.setAttribute("id", `cardDay${i + 1}`);
+		cardDiv.append(dateEl, imgEl, tempEl, windEl, humidityEl);
+		// card container append
+		document.getElementById("cardContainer").appendChild(cardDiv);
+	}
 }
 async function fetchResults(event) {
 	// event.preventDefault();
@@ -264,6 +300,13 @@ async function fetchResults(event) {
 	fiveHumidEl.textContent = "Humidity: " + fiveHumid + " %";
 }
 
+async function renderSearchResults(event) {
+	event.preventDefault();
+	fetchWeatherData();
+	const response = await fetchWeatherData();
+	renderCurrentWeather(response);
+	render5DayForecast(response);
+}
 /*
 WHEN I view future weather conditions for that city
 THEN I am presented with a 5-day forecast that displays the date, an icon representation of weather conditions, the temperature, the wind speed, and the humidity
@@ -409,5 +452,5 @@ searchedList.addEventListener("click", (event) => {
 });
 
 const searchBtn = document.getElementById("searchBtn");
-searchBtn.addEventListener("click", fetchResults);
+searchBtn.addEventListener("click", renderSearchResults);
 // searchedList.addEventListener("click", ".search-button", );
