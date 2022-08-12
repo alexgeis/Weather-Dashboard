@@ -1,34 +1,53 @@
+:root {
+  --main-bg-color: rgba(30,39,107,1) 23.8%;
+  --secondary-bg-color: rgba(77,118,221,1) 90.2%;
+  --primary-light-color: rgb(243, 243, 243);
+  --font-family: 'Vazirmatn', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
 body {
-  /* font-family: ; */
+  font-family: var(--font-family);
 }
 
 header {
-  background-image: linear-gradient(to right, blue, rgb(64, 0, 128));
+background-image: linear-gradient( 105.3deg, var(--main-bg-color) , var(--secondary-bg-color) );
+box-shadow: rgba(0, 0, 0, 0.1) 0px 20px 25px -5px, rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
 }
-
+h1 {
+  font-size: 2rem;
+  font-weight: 500;
+}
 h1,
 header p {
   text-align: center;
-  font-weight: bold;
   color: white;
-  padding-top: 10px;
-  padding-bottom: 10px;
+  padding: 0.5rem 0;
 }
 
 #searchAside,
 #cityDisplay,
 #forecast,
 .card {
-  border: 2px solid black;
+  /* border: 2px solid black; */
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
   padding: 10px;
-  border-radius: 10px;
+  /* border-radius: 10px; */
 }
-
+#search-input-header {
+  text-align: center;
+}
 #searchBtn {
-  background-image: linear-gradient(to right, blue, rgb(64, 0, 128));
+  background-image: linear-gradient( 90.3deg, var(--main-bg-color) , var(--secondary-bg-color) );
   color: white;
 }
 
+main {
+  display:none;
+}
 ul {
   list-style: none;
 }
@@ -38,14 +57,12 @@ li {
 }
 
 li button:active {
-  background-color: blue;
-  color: white;
+  background-image: linear-gradient( 105.3deg, var(--main-bg-color) , var(--secondary-bg-color) );
+  color: var(--primary-light-color);
 }
-span {
+#cityUV {
   border-radius: 10px;
-  padding: 5px;
-  padding-right: 10px;
-  padding-left: 10px;
+  padding: .5rem 1rem;
 }
 
 .lowUV {
@@ -62,9 +79,8 @@ span {
 }
 
 .card {
-  /* background-color: rgb(64, 0, 128); */
-  background-image: linear-gradient(to bottom, blue, rgb(64, 0, 128));
-  color: white;
+  background-image: linear-gradient( 105.3deg, var(--main-bg-color) , var(--secondary-bg-color) );
+  color: var(--primary-light-color);
   border-radius: 10px;
 }
 
@@ -81,7 +97,18 @@ img[src=""] {
   display: none;
 }
 
+/* MEDIA QUERIES */
+@media screen and (min-width: 992px) {
+  #row-container {
+    justify-content: center;
+  }
+}
 @media screen and (max-width: 992px) {
+  #sticky-sidebar {
+    min-width: calc(75vh - 250px);
+    padding: 0 2rem;
+    margin: 0 auto;
+  }
   #cardContainer {
     max-width: 960px;
     flex-direction: column;
