@@ -29,20 +29,18 @@ THEN I am presented with current and future conditions for that city and that ci
 const inputEl = document.getElementById("cityInput");
 const searchedList = document.getElementById("citySearched");
 
-// const searchedListItem = document.querySelector(".search-list");
 function renderSearches() {
 	//locally store city searches
 	const citySearch = inputEl.value;
 	//   ---setting captured values to local storage---
 	localStorage.setItem("citySearch", citySearch);
-	const citySearchItem = localStorage.getItem("citySearch");
 	const cityLi = document.createElement("li");
 	cityLi.classList.add("search-list");
 	const cityBtn = document.createElement("button");
 	//   cityBtn.setAttribute(‘data-city’,‘para-1’);
 	cityBtn.classList.add("search-button");
 
-	cityBtn.textContent = citySearchItem;
+	cityBtn.textContent = citySearch;
 	cityLi.appendChild(cityBtn);
 	searchedList.appendChild(cityLi);
 }
@@ -50,19 +48,54 @@ function renderSearches() {
 //event delegation - need all city search buttons to retrigger searches using the button text
 function redoSearch() {}
 
-async function fetchResults(event) {
-	event.preventDefault();
-	// show main city display
+//5-day forecast elements
+const forecastEl = document.getElementById("forecast");
+//Day 1
+const oneDateEl = document.getElementById("oneDate");
+const oneIconEl = document.getElementById("oneIcon");
+const oneTempEl = document.getElementById("oneTemp");
+const oneWindEl = document.getElementById("oneWind");
+const oneHumidEl = document.getElementById("oneHumid");
+//Day 2
+const twoDateEl = document.getElementById("twoDate");
+const twoIconEl = document.getElementById("twoIcon");
+const twoTempEl = document.getElementById("twoTemp");
+const twoWindEl = document.getElementById("twoWind");
+const twoHumidEl = document.getElementById("twoHumid");
+//Day 3
+const threeDateEl = document.getElementById("threeDate");
+const threeIconEl = document.getElementById("threeIcon");
+const threeTempEl = document.getElementById("threeTemp");
+const threeWindEl = document.getElementById("threeWind");
+const threeHumidEl = document.getElementById("threeHumid");
+//Day 4
+const fourDateEl = document.getElementById("fourDate");
+const fourIconEl = document.getElementById("fourIcon");
+const fourTempEl = document.getElementById("fourTemp");
+const fourWindEl = document.getElementById("fourWind");
+const fourHumidEl = document.getElementById("fourHumid");
+//Day 5
+const fiveDateEl = document.getElementById("fiveDate");
+const fiveIconEl = document.getElementById("fiveIcon");
+const fiveTempEl = document.getElementById("fiveTemp");
+const fiveWindEl = document.getElementById("fiveWind");
+const fiveHumidEl = document.getElementById("fiveHumid");
+
+/* 
+//show city/forecast sections
+//fetch results
+*/
+function displayWeatherData() {
 	document.getElementById("main").style.display = "block";
-	//show 5-day forecast section
-	forecastEl.style.display = "block";
-	//variable for user input city
+	document.getElementById("forecast").style.display = "block";
+}
+async function fetchWeatherData(event) {
+	event.preventDefault();
+	const inputEl = document.getElementById("cityInput");
 	const citySearch = inputEl.value;
 	if (!citySearch) {
 		alert("Please enter a city name");
 	}
-
-	renderSearches();
 	//geo-location fetch
 	const geoURL =
 		"https://api.openweathermap.org/geo/1.0/direct?q=" +
@@ -83,14 +116,84 @@ async function fetchResults(event) {
 	//2nd fetch call using the geolocation info
 	const responseWeatherData = await fetch(requestURL);
 	const weatherData = await responseWeatherData.json();
-	// console.log(weatherData);
-	//current variables
-	const currentTemp = weatherData.current.temp;
-	const currentWind = weatherData.current.wind_speed;
-	const currentHumid = weatherData.current.humidity;
-	const currentUV = weatherData.current.uvi;
-	// console.log(currentUV);
-	const currentIcon = weatherData.current.weather[0].icon;
+	console.log(weatherData);
+	return weatherData;
+}
+function renderCurrentWeather(data) {
+	const currentTemp = data.current.temp;
+	const currentWind = data.current.wind_speed;
+	const currentHumid = data.current.humidity;
+	const currentUV = data.current.uvi;
+	const currentIcon = data.current.weather[0].icon;
+
+	const cityNameEl = document.getElementById("cityName");
+	const cityTempEl = document.getElementById("cityTemp");
+	const cityWindEl = document.getElementById("cityWind");
+	const cityHumidEl = document.getElementById("cityHumid");
+	const cityUVEl = document.getElementById("cityUV");
+
+	const inputEl = document.getElementById("cityInput");
+	//City information elements
+	cityNameEl.textContent = inputEl.value;
+	cityTempEl.textContent = "Temp: " + currentTemp + "\u00B0F";
+	cityWindEl.textContent = "Wind: " + currentWind + " MPH";
+	cityHumidEl.textContent = "Humidity: " + currentHumid + " %";
+	cityUVEl.textContent = currentUV;
+	if (currentUV < 3) {
+		cityUVEl.classList.add("lowUV");
+	} else if (currentUV < 6) {
+		cityUVEl.classList.add("medUV");
+	} else if (currentUV < 8) {
+		cityUVEl.classList.add("hiUV");
+	} else {
+		cityUVEl.classList.add("veryHiUV");
+	}
+}
+function render5DayForecase(data) {
+	const dailyArray = data.daily;
+	console.log(dailyArray);
+}
+async function fetchResults(event) {
+	// event.preventDefault();
+	// // show main city display
+	// document.getElementById("main").style.display = "block";
+	// forecastEl.style.display = "block";
+	// //show 5-day forecast section
+	// //variable for user input city
+	// const citySearch = inputEl.value;
+	// if (!citySearch) {
+	// 	alert("Please enter a city name");
+	// }
+
+	// renderSearches();
+	// //geo-location fetch
+	// const geoURL =
+	// 	"https://api.openweathermap.org/geo/1.0/direct?q=" +
+	// 	citySearch +
+	// 	"&limit=1&appid=7a7cf95b9e7bc5abfa9774305fd77b7e";
+	// const responseGeo = await fetch(geoURL);
+	// const dataGeo = await responseGeo.json();
+
+	// const latitude = dataGeo[0].lat.toFixed(2);
+	// const longitude = dataGeo[0].lon.toFixed(2);
+	// const requestURL =
+	// 	"https://api.openweathermap.org/data/2.5/onecall?lat=" +
+	// 	latitude +
+	// 	"&lon=" +
+	// 	longitude +
+	// 	"&units=imperial&exclude=minutely,hourly,alerts&appid=7a7cf95b9e7bc5abfa9774305fd77b7e";
+
+	// //2nd fetch call using the geolocation info
+	// const responseWeatherData = await fetch(requestURL);
+	// const weatherData = await responseWeatherData.json();
+	// // console.log(weatherData);
+	// //current variables
+
+	// const currentTemp = weatherData.current.temp;
+	// const currentWind = weatherData.current.wind_speed;
+	// const currentHumid = weatherData.current.humidity;
+	// const currentUV = weatherData.current.uvi;
+	// const currentIcon = weatherData.current.weather[0].icon;
 	//day 1 forecast variables
 	const oneTemp = weatherData.daily[0].temp.day;
 	const oneWind = weatherData.daily[0].wind_speed;
@@ -127,21 +230,7 @@ async function fetchResults(event) {
 	const fiveIcon =
 		"https://openweathermap.org/img/wn/" + fiveIconCode + "@2x.png";
 	// TEXT CONTENT
-	//City information elements
-	cityNameEl.textContent = citySearch;
-	cityTempEl.textContent = "Temp: " + currentTemp + "\u00B0F";
-	cityWindEl.textContent = "Wind: " + currentWind + " MPH";
-	cityHumidEl.textContent = "Humidity: " + currentHumid + " %";
-	cityUVEl.textContent = currentUV;
-	if (currentUV < 3) {
-		cityUVEl.classList.add("lowUV");
-	} else if (currentUV < 6) {
-		cityUVEl.classList.add("medUV");
-	} else if (currentUV < 8) {
-		cityUVEl.classList.add("hiUV");
-	} else {
-		cityUVEl.classList.add("veryHiUV");
-	}
+
 	//5-day forecast elements
 	//Day 1
 	oneDateEl.textContent = moment().add(1, "days").format("l");
