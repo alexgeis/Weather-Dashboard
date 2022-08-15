@@ -51,8 +51,10 @@ function renderCurrentWeather(data) {
 	const currentHumid = data.current.humidity;
 	const currentUV = data.current.uvi;
 	const currentIcon = data.current.weather[0].icon;
+	const currentIconPath = `https://openweathermap.org/img/wn/${currentIcon}@2x.png`;
 
 	const cityNameEl = document.getElementById("cityName");
+	const cityIconEl = document.getElementById("cityIcon");
 	const cityTempEl = document.getElementById("cityTemp");
 	const cityWindEl = document.getElementById("cityWind");
 	const cityHumidEl = document.getElementById("cityHumid");
@@ -61,6 +63,8 @@ function renderCurrentWeather(data) {
 	const inputEl = document.getElementById("cityInput");
 	//City information elements
 	cityNameEl.textContent = inputEl.value;
+	cityIconEl.setAttribute("src", currentIconPath);
+	cityIconEl.setAttribute("alt", `City forecast weather icon`);
 	cityTempEl.textContent = `Temp: ${currentTemp} \u00B0F`;
 	cityWindEl.textContent = `Wind: ${currentWind} MPH`;
 	cityHumidEl.textContent = `Humidity: ${currentHumid} %`;
