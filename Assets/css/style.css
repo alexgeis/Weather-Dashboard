@@ -46,6 +46,10 @@ header p {
   background-image: linear-gradient( 90.3deg, var(--main-bg-color) , var(--secondary-bg-color) );
   color: white;
 }
+.search-button {
+  padding: .5rem .7rem;
+  border-radius: .5rem  ;
+}
 
 main {
   display:none;
