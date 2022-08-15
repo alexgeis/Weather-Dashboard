@@ -99,6 +99,7 @@ function render5DayForecast(data) {
 		imgEl.setAttribute("id", `icon${i + 1}`);
 		imgEl.setAttribute("src", iconPath);
 		imgEl.setAttribute("alt", `Day ${i + 1} forecast weather icon`);
+		imgEl.classList.add("weatherIcon");
 		// // temp
 		const tempEl = document.createElement("p");
 		tempEl.setAttribute("id", `temp${i + 1}`);

@@ -7,6 +7,8 @@
 
 * {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 body {
@@ -87,14 +89,14 @@ li button:active {
 h4 {
   font-size: 20px;
 }
-
-img {
-  width: 50%;
-  margin-left: auto;
-  margin-right: auto;
-}
 img[src=""] {
   display: none;
+}
+#cityDisplay {
+  position: relative;
+}
+#cityIcon {
+  display: inline;
 }
 
 /* MEDIA QUERIES */
