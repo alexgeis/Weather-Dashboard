@@ -62,6 +62,7 @@ function renderCurrentWeather(data) {
 	}
 }
 function render5DayForecast(data) {
+	document.getElementById("cardContainer").innerHTML = "";
 	const dailyArray = data.daily;
 	for (let i = 0; i < 5; i++) {
 		const dailyData = dailyArray[i];
@@ -150,12 +151,12 @@ searchedList.addEventListener("click", async (event) => {
 	if (event.target.className !== "search-button") return;
 	else {
 		const searchBtnText = event.target.innerText;
-		document.getElementById("cityName").textContent = searchBtnText;
 		const response = await fetchWeatherData(searchBtnText);
 		renderCurrentWeather(response);
+		document.getElementById("cityName").textContent = searchBtnText;
 		render5DayForecast(response);
 		displayWeatherData();
-		renderSearchHistory();
+		// renderSearchHistory();
 	}
 });
 
