@@ -8,24 +8,6 @@ window.onload = function () {
 	document.getElementById("forecast").style.display = "none";
 };
 
-/*
-1. user types in input
-2. user clicks button
-  2.1. user input value is added as text content on a new list item under the search section
-  2.2. selection of list item (city name) make the same fetch call in step 3 below.
-3. fetch() - 
-    3.1. using the city name of the user input, make fetch call to geocoding API of openweather
-    3.2. return data should have latitude and longitude values
-    3.3. use lat and long values to fill in full requestURL for location weather
-    3.4 fetch for the one call API from open weather
-    3.5 return data should have temp, wind, humidity and UV index (for today, and next 5 days)
-4. take JSON response from 3.5 and 
-    4.1 create new text content for the respective elements on each card
-    4.2 including dates on main card and forecast cards
-    4.2 - conditionals needed:
-    -UV index - ranges for green, yellow, and red
-    -weather icon - based on weather show certain icon
-*/
 const inputEl = document.getElementById("cityInput");
 const searchedList = document.getElementById("citySearched");
 
@@ -168,6 +150,7 @@ searchedList.addEventListener("click", async (event) => {
 	if (event.target.className !== "search-button") return;
 	else {
 		const searchBtnText = event.target.innerText;
+		document.getElementById("cityName").textContent = searchBtnText;
 		const response = await fetchWeatherData(searchBtnText);
 		renderCurrentWeather(response);
 		render5DayForecast(response);
